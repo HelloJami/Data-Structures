@@ -10,22 +10,28 @@ struct Node
 class SinglyLinkedListClass
 {
 private:
-    Node *head = nullptr;
-    Node *tail = nullptr;
+    Node *head ;
+    Node *tail ;
 
 public:
-    SinglyLinkedListClass(const SinglyLinkedListClass &other);            // copy constructor
-    SinglyLinkedListClass &operaotr = (const SinglyLinkedListClass &rhs); // Assignment operator overloading
-    ~SinglyLinkedListClass();                                             
+    SinglyLinkedListClass();//default constructor
+    SinglyLinkedListClass(const SinglyLinkedListClass &other); // copy constructor
+    SinglyLinkedListClass &operator=(const SinglyLinkedListClass &rhs); // Assignment operator overloading
+    ~SinglyLinkedListClass();
 
-    void insert(const int value);       
-    void insertAtHead(const int value); 
-    bool search(const int value) const; 
-    bool remove(const int value);
-    bool removeAtHead(const int value); 
-    void print() const;                 
+    void insert(const int value);
+    void insertAtHead(const int value);
+    bool search(const int value) const;
+    bool remove(int &value);
+    bool removeAtHead(int &value);
+    bool isEmpty() const;
+    void print() const;
 };
 
+SinglyLinkedListClass ::SinglyLinkedListClass(){
+    head = nullptr;
+    tail = nullptr;
+}
 SinglyLinkedListClass::SinglyLinkedListClass(const SinglyLinkedListClass &other)
 {
     Node *curr = other.head;
@@ -48,11 +54,12 @@ SinglyLinkedListClass::SinglyLinkedListClass(const SinglyLinkedListClass &other)
         curr = curr->next;
     }
 }
-SinglyLinkedListClass SinglyLinkedListClass ::&operaotr = (const SinglyLinkedListClass &rhs)
+
+SinglyLinkedListClass &SinglyLinkedListClass::operator=(const SinglyLinkedListClass &rhs)
 {
-    if (this != rhs)
+    if (this != &rhs)
     {
-        while (head != nullptr)//delete all previous if have
+        while (head != nullptr) // delete all previous if have
         {
             Node *next = head->next;
             delete head;
@@ -60,16 +67,15 @@ SinglyLinkedListClass SinglyLinkedListClass ::&operaotr = (const SinglyLinkedLis
         }
         tail = nullptr;
 
-
-        Node *curr = rhs.head; //start copying values
+        Node *curr = rhs.head; // start copying values
         while (curr != nullptr)
         {
             Node *newNode = new Node();
-            newNode->value curr->value;
+            newNode->value = curr->value;
 
             if (head == nullptr)
             {
-                head = tail = newnode;
+                head = tail = newNode;
             }
             else
             {
@@ -81,6 +87,7 @@ SinglyLinkedListClass SinglyLinkedListClass ::&operaotr = (const SinglyLinkedLis
     }
     return *this;
 }
+
 SinglyLinkedListClass::~SinglyLinkedListClass()
 {
     while (head != nullptr)
@@ -92,7 +99,8 @@ SinglyLinkedListClass::~SinglyLinkedListClass()
 
     head = tail = nullptr;
 }
-void SinglyLinkedListClass ::insert(const int value)
+
+void SinglyLinkedListClass::insert(const int value)
 {
     Node *newNode = new Node();
     newNode->value = value;
@@ -109,7 +117,7 @@ void SinglyLinkedListClass ::insert(const int value)
     tail = newNode;
 }
 
-void SinglyLinkedListClass ::insertAtHead(const int value)
+void SinglyLinkedListClass::insertAtHead(const int value)
 {
     Node *newNode = new Node();
     newNode->value = value;
@@ -125,7 +133,7 @@ void SinglyLinkedListClass ::insertAtHead(const int value)
     head = newNode;
 }
 
-bool SinglyLinkedListClass ::remove(int &value)
+bool SinglyLinkedListClass::remove(int &value)
 {
     if (head == nullptr)
     {
@@ -139,17 +147,20 @@ bool SinglyLinkedListClass ::remove(int &value)
         return true;
     }
 
-    // Node* pre = head->next;
-    // Node *curr = head->next;
-    // while(curr != nullptr){
-    //     pre = cur
-    //     curr = curr->next;
-
-    // }
-    //------------------
+    Node *pre = head;
+    Node *curr = head;
+    while (curr != nullptr)
+    {
+        pre = curr;
+        curr = curr->next;
+    }
+    value = curr->value;
+    delete curr;
+    tail = pre;
+    return true;
 }
 
-bool SinglyLinkedListClass ::removeAtHead(int &value)
+bool SinglyLinkedListClass::removeAtHead(int &value)
 {
     if (head == nullptr)
         return false;
@@ -166,8 +177,9 @@ bool SinglyLinkedListClass ::removeAtHead(int &value)
     value = head->value;
     delete head;
     head = current;
-    return true
+    return true;
 }
+
 bool SinglyLinkedListClass::search(const int value) const
 {
     if (head == nullptr)
@@ -190,7 +202,8 @@ bool SinglyLinkedListClass::search(const int value) const
 
     return false;
 }
-void SinglyLinkedListClass ::print() const
+
+void SinglyLinkedListClass::print() const
 {
     Node *node = head;
 
@@ -200,13 +213,8 @@ void SinglyLinkedListClass ::print() const
         node = node->next;
     }
 }
-int main()
+
+bool SinglyLinkedListClass::isEmpty() const
 {
-    SinglyLinkedListClass list;
-
-    list.insert(4);
-    list.insert(5);
-    list.insert(8);
-
-    list.print();
+    return head == nullptr;
 }

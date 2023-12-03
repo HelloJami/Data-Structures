@@ -1,26 +1,21 @@
 #pragma once
-#include <iostream>
+//#include <iostream>
 #include<string>
 #include<cctype>
 using namespace std;
 
 #include "StackUsingLinkedList.h"
 
-stack <int> values;
-stack <char> operators;
-
-void expressionEvaluate(string expression) {
-    expression = removeExtraCharacters(expression);
-    infixToPostfix(expression);
-
-}
+Stack <int> values;
+Stack <char> operators;
+int result();
 
 string removeExtraCharacters(string expression) {
     string newS;
 
-    for (int i = 0; i < s.size(); ++i)
+    for (int i = 0; i < (int)expression.size(); ++i)
     {
-        char ch = s[i];
+        char ch = expression[i];
 
         if ((ch >= 48 && ch <= 57) || (ch == '+' || ch == '-' || ch == '*' || ch == '/')) {
             newS += ch; //String concatenation 
@@ -40,10 +35,9 @@ int precedence(char op) {
     return 0;
 }
 
+void infixToPostfix(string& expression) {
 
-string infixToPostfix(string& expression) {
-
-    for (int i = 0;i <= expression.length(); ++i) {
+    for (int i = 0;i < (int)expression.length(); ++i) {
 
         char token = expression[i];
 
@@ -51,46 +45,63 @@ string infixToPostfix(string& expression) {
         {
             string number = "";
 
-            while (i <= expression.length() && isdigit(expression[i])) {//more than one digit
+            while (i <= (int)expression.length() && isdigit(expression[i])) {//more than one digit
                 number += expression[i++];
             }
-
-            values.push(stio(number));
-            number = ""; //reset number
+            //int n = ;
+            values.push(stoi(number));
+            //number = ""; //reset number
+            --i;
         }
-        
-        else{       //if token is not number
-            while (!ops.empty() && precedence(ops.top()) >= precedence(tokens[i])) 
+
+        else {       //if token is not number
+            while (!operators.isEmpty()) 
             {
-                values.push(result());
+                char op = NULL;
+                operators.pop(op);
+                if (precedence(op) >= precedence(expression[i])) {
+                    values.push(result());
+                }
+                else {
+                    operators.push(op);
+                }
+                
             }
-            ops.push(tokens[i]);
+            operators.push(token);
+        }
     }
 }
 
 int applyOperator(int val1, int val2, char op) {
-    switch (op) {
-    case '+': return val1 + val2;
-    case '-': return val1 - val2;
-    case '*': return val1 * val2;
-    case '/': return val1 / val2;
+        switch (op) {
+        case '+': return val1 + val2;
+        case '-': return val1 - val2;
+        case '*': return val1 * val2;
+        case '/': return val1 / val2;
+        }
     }
-}
 
 int result() {
-    while (!operators.empty()) {
-        int val2 = 0;
-        values.pop(val2);
+        while (!operators.isEmpty()) {
+            int val2 = 0;
+            values.pop(val2);
 
-        int val1 = 0;
-        values.pop(val1);
+            int val1 = 0;
+            values.pop(val1);
 
-        char op = '';
-        operators.pop(op);
+            char op = NULL;
+            operators.pop(op);
 
-        values.push(applyOperator(val1, val2, op));
+            values.push(applyOperator(val1, val2, op));
+        }
+        int res = 0;
+        values.pop(res);
+        return res;
     }
-    int res = 0
-    values.pop(res);
-    return res;
-}
+
+
+    int expressionEvaluate(string expression) {
+        expression = removeExtraCharacters(expression);
+        infixToPostfix(expression);
+        return result();
+    }

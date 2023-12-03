@@ -27,13 +27,15 @@ public:
     void print() const;
 };
 
-DoublyLinkedList::DoublyLinkedList()
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList()
 {
     head = nullptr;
     tail = nullptr;
 }
 
-DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList& other)
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& other)
 {
     Node* curr = other.head;
 
@@ -58,22 +60,23 @@ DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList& other)
     }
 }
 
-DoublyLinkedList& DoublyLinkedList::operator=(const DoublyLinkedList& rhs)
+template <typename T>
+DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& rhs)
 {
     if (this != &rhs)
     {
         while (head != nullptr) // delete all previous if have
         {
-            Node* next = head->next;
+            Node<T>* next = head->next;
             delete head;
             head = next;
         }
         tail = nullptr;
 
-        Node* curr = rhs.head; // start copying values
+        Node<T>* curr = rhs.head; // start copying values
         while (curr != nullptr)
         {
-            Node* newNode = new Node();
+            Node<T>* newNode = new Node<T>();
             newNode->value = curr->value;
 
             if (head == nullptr)// when first Node come
@@ -93,20 +96,20 @@ DoublyLinkedList& DoublyLinkedList::operator=(const DoublyLinkedList& rhs)
     }
     return *this;
 }
-
-DoublyLinkedList::~DoublyLinkedList()
+template <typename T>
+DoublyLinkedList<T>::~DoublyLinkedList()
 {
     while (head != nullptr)
     {
-        Node* next = head->next;
+        Node<T>* next = head->next;
         delete head;    //delete all nodes
         head = next;
     }
 
     head = tail = nullptr;
 }
-
-void DoublyLinkedList::insert(const T value)  // insert at tail
+template <typename T>
+void DoublyLinkedList<T>::insert(const T value)  // insert at tail
 {
     Node* newNode = new Node();
     newNode->value = value;
@@ -124,10 +127,10 @@ void DoublyLinkedList::insert(const T value)  // insert at tail
     tail->next = newNode;
     tail = newNode;     // tail to newly added last Node at last
 }
-
-void DoublyLinkedList::insertAtHead(const T value)
+template <typename T>
+void DoublyLinkedList<T>::insertAtHead(const T value)
 {
-    Node* newNode = new Node();
+    Node<T>* newNode = new Node<T>();
     newNode->pre = nullptr;
     newNode->value = value;
     newNode->next = nullptr;
@@ -143,8 +146,8 @@ void DoublyLinkedList::insertAtHead(const T value)
     newNode->next = head;
     head = newNode;
 }
-
-bool DoublyLinkedList::remove(T& value)
+template <typename T>
+bool DoublyLinkedList<T>::remove(T& value)
 {
     if (head == nullptr) // when no Node in list
     {
@@ -171,8 +174,8 @@ bool DoublyLinkedList::remove(T& value)
     delete curr;
     return true;
 }
-
-bool DoublyLinkedList::removeAtHead(T& value)
+template <typename T>
+bool DoublyLinkedList<T>::removeAtHead(T& value)
 {
     if (head == nullptr)
         return false;
@@ -186,7 +189,7 @@ bool DoublyLinkedList::removeAtHead(T& value)
     }
     value = head->value; // return first Node value
 
-    Node* current = head->next;
+    Node<T>* current = head->next;
     delete head;
     head = current;
 
@@ -195,8 +198,8 @@ bool DoublyLinkedList::removeAtHead(T& value)
 
     return true;
 }
-
-bool DoublyLinkedList::search(const T value) const
+template <typename T>
+bool DoublyLinkedList<T>::search(const T value) const
 {
     Node* temp = head;
 
@@ -210,8 +213,8 @@ bool DoublyLinkedList::search(const T value) const
     }
     return false;
 }
-
-void DoublyLinkedList::print() const
+template <typename T>
+void DoublyLinkedList<T>::print() const
 {
     Node* node = head;
 
@@ -221,8 +224,8 @@ void DoublyLinkedList::print() const
         node = node->next;
     }
 }
-
-bool DoublyLinkedList::isEmpty() const
+template <typename T>
+bool DoublyLinkedList<T>::isEmpty() const
 {
     return head == nullptr; // return true if any Node in list
 }

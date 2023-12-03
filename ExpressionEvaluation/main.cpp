@@ -9,12 +9,12 @@ int main()
 {
 
     string expression;
-    cout << "Enter a string: ";
+    cout << "Enter a exprsion: ";
     getline(cin, expression);    // cin >> s;
 
     //int result = 
-    expressionEvaluation(expression);
+    cout << "Answer is: " << expressionEvaluate(expression);
 
 
-    //cout << "Answer is: " << result << endl;
+    //result() << endl;
 }

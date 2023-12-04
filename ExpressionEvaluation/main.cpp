@@ -4,17 +4,13 @@
 #include "ExpresionEvaluation.h"
 using namespace std;
 
-
 int main()
 {
 
     string expression;
-    cout << "Enter a exprsion: ";
-    getline(cin, expression);    // cin >> s;
+    cout << "Enter a string: ";
+    getline(cin, expression);// taking input from user in string
 
-    //int result = 
-    cout << "Answer is: " << expressionEvaluate(expression);
-
-
-    //result() << endl;
+    cout << "Answer is: " << expressionEvaluate(expression); // calling the function
+    return 0;
 }

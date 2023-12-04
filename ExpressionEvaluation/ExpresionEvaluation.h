@@ -1,18 +1,25 @@
 #pragma once
-//#include <iostream>
 #include<string>
 #include<cctype>
 using namespace std;
 
 #include "StackUsingLinkedList.h"
 
+// Stacks
 Stack <int> values;
 Stack <char> operators;
+
+// Functions declarations
+string removeIllegalCharacters(string expression);
+int precedence(char op);
+int infixToPostfix(string& expression);
 int result();
+int expressionEvaluate(string expression);
 
-string removeExtraCharacters(string expression) {
+// Functions Definitions
+string removeIllegalCharacters(string expression) {
+    //remove extra or illegal characters from inputted string
     string newS;
-
     for (int i = 0; i < (int)expression.size(); ++i)
     {
         char ch = expression[i];
@@ -35,7 +42,29 @@ int precedence(char op) {
     return 0;
 }
 
-void infixToPostfix(string& expression) {
+int applyOperator(int val1, int val2, char op) {
+    switch (op) {
+    case '+': return val1 + val2;
+    case '-': return val1 - val2;
+    case '*': return val1 * val2;
+    case '/': return val1 / val2;
+    }
+}
+
+int result() {
+    int val2 = 0;
+    values.pop(val2);
+
+    int val1 = 0;
+    values.pop(val1);
+
+    char op = NULL;
+    operators.pop(op);
+
+    return applyOperator(val1, val2, op);
+}
+
+int infixToPostfix(string& expression) {
 
     for (int i = 0;i < (int)expression.length(); ++i) {
 
@@ -45,63 +74,35 @@ void infixToPostfix(string& expression) {
         {
             string number = "";
 
-            while (i <= (int)expression.length() && isdigit(expression[i])) {//more than one digit
+            while (i < (int)expression.length() && isdigit(expression[i])) 
+            {        //more than one digit
                 number += expression[i++];
             }
-            //int n = ;
             values.push(stoi(number));
-            //number = ""; //reset number
             --i;
         }
-
-        else {       //if token is not number
-            while (!operators.isEmpty()) 
+        else {      //if token is not number
+            char op = expression[i];
+            while (!operators.isEmpty() && precedence(op) >= precedence(expression[i]))
             {
-                char op = NULL;
-                operators.pop(op);
-                if (precedence(op) >= precedence(expression[i])) {
-                    values.push(result());
-                }
-                else {
-                    operators.push(op);
-                }
+                values.push(result());
                 
             }
-            operators.push(token);
+            operators.push(expression[i]);
         }
     }
+
+
+    while (!operators.isEmpty()) {
+        values.push(result());
+    }
+
+    int res = 0;
+    values.pop(res);
+    return res;
 }
-
-int applyOperator(int val1, int val2, char op) {
-        switch (op) {
-        case '+': return val1 + val2;
-        case '-': return val1 - val2;
-        case '*': return val1 * val2;
-        case '/': return val1 / val2;
-        }
-    }
-
-int result() {
-        while (!operators.isEmpty()) {
-            int val2 = 0;
-            values.pop(val2);
-
-            int val1 = 0;
-            values.pop(val1);
-
-            char op = NULL;
-            operators.pop(op);
-
-            values.push(applyOperator(val1, val2, op));
-        }
-        int res = 0;
-        values.pop(res);
-        return res;
-    }
-
-
-    int expressionEvaluate(string expression) {
-        expression = removeExtraCharacters(expression);
-        infixToPostfix(expression);
-        return result();
+int expressionEvaluate(string expression) {
+        expression = removeIllegalCharacters(expression);
+        return infixToPostfix(expression);
+        //return result();
     }

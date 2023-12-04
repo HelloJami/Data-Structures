@@ -1,5 +1,4 @@
 #pragma once
-
 #include "DoublyLinkedList.h"
 
 template <typename T>

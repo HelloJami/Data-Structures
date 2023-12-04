@@ -35,7 +35,7 @@ DoublyLinkedList<T>::DoublyLinkedList()
 }
 
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& other)
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& other)
 {
     Node* curr = other.head;
 
@@ -130,7 +130,7 @@ void DoublyLinkedList<T>::insert(const T value)  // insert at tail
 template <typename T>
 void DoublyLinkedList<T>::insertAtHead(const T value)
 {
-    Node<T>* newNode = new Node<T>();
+    Node<T>* newNode = new Node<T>();//Node()
     newNode->pre = nullptr;
     newNode->value = value;
     newNode->next = nullptr;

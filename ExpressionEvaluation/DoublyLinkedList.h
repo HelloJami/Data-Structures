@@ -24,7 +24,7 @@ public:
     bool remove(T& value);
     bool removeAtHead(T& value);
     bool isEmpty() const;
-    void print() const;
+    //void print() const;
 };
 
 template <typename T>
@@ -37,11 +37,11 @@ DoublyLinkedList<T>::DoublyLinkedList()
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& other)
 {
-    Node* curr = other.head;
+    Node<T>* curr = other.head;
 
     while (curr != nullptr)
     {
-        Node* newNode = new Node();
+        Node<T>* newNode = new Node<T>();
         newNode->value = curr->value;       //copying values
 
         if (head == nullptr)
@@ -111,7 +111,7 @@ DoublyLinkedList<T>::~DoublyLinkedList()
 template <typename T>
 void DoublyLinkedList<T>::insert(const T value)  // insert at tail
 {
-    Node* newNode = new Node();
+    Node<T>* newNode = new Node<T>();
     newNode->value = value;
     newNode->next = nullptr;
 
@@ -160,7 +160,7 @@ bool DoublyLinkedList<T>::remove(T& value)
         tail = head = nullptr;
         return true;
     }
-    Node* curr = head; // cuur to last Node
+    Node<T>* curr = head; // cuur to last Node
     while (curr->next != nullptr)
     {
         curr = curr->next;
@@ -201,7 +201,7 @@ bool DoublyLinkedList<T>::removeAtHead(T& value)
 template <typename T>
 bool DoublyLinkedList<T>::search(const T value) const
 {
-    Node* temp = head;
+    Node<T>* temp = head;
 
     while (temp != nullptr)
     {
@@ -213,17 +213,18 @@ bool DoublyLinkedList<T>::search(const T value) const
     }
     return false;
 }
-template <typename T>
-void DoublyLinkedList<T>::print() const
-{
-    Node* node = head;
+//template <typename T>
+// void DoublyLinkedList<T>::print() const
+// {
+//     Node<T>* node = head;
 
-    while (node != nullptr)
-    {
-        cout << node->value << " ";
-        node = node->next;
-    }
-}
+//     while (node != nullptr)
+//     {
+//         std::cout << node->value << " ";
+//         node = node->next;
+//     }
+// }
+
 template <typename T>
 bool DoublyLinkedList<T>::isEmpty() const
 {

@@ -24,7 +24,6 @@ public:
     bool remove(T& value);
     bool removeAtHead(T& value);
     bool isEmpty() const;
-    //void print() const;
 };
 
 template <typename T>
@@ -213,17 +212,6 @@ bool DoublyLinkedList<T>::search(const T value) const
     }
     return false;
 }
-//template <typename T>
-// void DoublyLinkedList<T>::print() const
-// {
-//     Node<T>* node = head;
-
-//     while (node != nullptr)
-//     {
-//         std::cout << node->value << " ";
-//         node = node->next;
-//     }
-// }
 
 template <typename T>
 bool DoublyLinkedList<T>::isEmpty() const

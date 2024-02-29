@@ -1,12 +1,11 @@
 # Data Structures
 
-Description:
 This repository contains implementations of fundamental data structures and algorithms commonly used in computer science. 
-Below are some of the key topics covered in this repository.
+There are some of the key topics covered in this repository.
 
 **Singly Linked List**:
 
-Cpp implementation of a singly linked list data structure, including methods for insertion, deletion, traversal, and other common operations.
+Cpp implementation of a singly linked list data structure, including methods for insertion, deletion, traversal, and some other operations.
 
 **Stack and Queue**:
 
